@@ -1,11 +1,18 @@
+require "test/unit"
+include Test::Unit::Assertions
+
 class FuelCounterUpper
   def initialize(masses)
     @masses = masses
   end
 
   def count
-    @masses.map { |mass| module_fuel(mass) }.inject(:+)
+    masses.map { |mass| module_fuel(mass) }.inject(:+)
   end
+
+  private
+
+  attr_reader :masses
 
   def module_fuel(mass)
     sum = 0
@@ -18,4 +25,5 @@ class FuelCounterUpper
 end
 
 input = File.readlines('input/day1').map(&:to_i)
-FuelCounterUpper.new(input).count
+result = FuelCounterUpper.new(input).count
+assert_equal 4837367, result
