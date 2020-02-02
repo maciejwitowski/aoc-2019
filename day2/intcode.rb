@@ -7,26 +7,26 @@ class Intcode
     prepare
 
     until operation.halt?
-      operation.perform(state, position)
+      operation.perform(memory, address)
       advance
     end
 
-    state
+    memory
   end
 
   private
 
   def prepare
-    @state = @input.dup
-    @position = 0
+    @memory = @input.dup
+    @address = 0
   end
 
   def advance
-    @position += 4
+    @address += 4
   end
 
   def operation
-    opcode = state[position]
+    opcode = memory[address]
     case opcode
     when 1
       Add
@@ -41,7 +41,7 @@ class Intcode
 
   private
 
-  attr_reader :state, :position
+  attr_reader :memory, :address
 end
 
 class Operation
