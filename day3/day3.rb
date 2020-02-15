@@ -27,6 +27,16 @@ def lowest_manhattan_distance(moves_a, moves_b)
       .min { |a, b| a <=> b }
 end
 
+def lowest_sum_of_steps(moves_a, moves_b)
+  path_one = Traverser.new(parse(moves_a)).traverse
+  path_two = Traverser.new(parse(moves_b)).traverse
+
+  (path_one & path_two)
+    .map { |point| path_one.index(point) + path_two.index(point) }
+    .min + 2
+end
+
+
 assert_equal(135, lowest_manhattan_distance(
     %w(R98 U47 R26 D63 R33 U87 L62 D20 R33 U53 R51),
     %w(U98 R91 D20 R16 D67 R40 U7 R15 U6 R7))
@@ -37,5 +47,16 @@ assert_equal(159, lowest_manhattan_distance(
     %w(U62 R66 U55 R34 D71 R55 D58 R83))
 )
 
-input = InputReader.new('input/day3').read
+assert_equal(410, lowest_sum_of_steps(
+  %w(R98 U47 R26 D63 R33 U87 L62 D20 R33 U53 R51),
+  %w(U98 R91 D20 R16 D67 R40 U7 R15 U6 R7))
+)
+
+assert_equal(610, lowest_sum_of_steps(
+  %w(R75 D30 R83 U83 L12 D49 R71 U7 L72),
+  %w(U62 R66 U55 R34 D71 R55 D58 R83))
+)
+
+input = InputReader.new('../input/day3').read
 assert_equal(2180, lowest_manhattan_distance(input[0], input[1]))
+assert_equal(112316, lowest_sum_of_steps(input[0], input[1]))
