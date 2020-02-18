@@ -27,8 +27,8 @@ class SecureContainer
 
     # Go from the beginning to the end bumping numbers which are not in non-decreasing order
     while i < current.size
-      if current[i] < current[i-1]
-        current[i] = current[i-1]
+      if current[i] < current[i - 1]
+        current[i] = current[i - 1]
       end
       i += 1
     end
@@ -72,6 +72,29 @@ class AdjacentValidator
   end
 end
 
+class AdjacentValidatorPartTwo
+  REQUIRED_GROUP_SIZE = 2
+
+  def valid?(number)
+    digits = array_from(number)
+    counter = 1
+    current = digits[0]
+    digits[1..-1].each do |n|
+      if n == current
+        counter += 1
+      elsif counter == REQUIRED_GROUP_SIZE
+        return true
+      else
+        counter = 1
+      end
+
+      current = n
+    end
+
+    counter == REQUIRED_GROUP_SIZE
+  end
+end
+
 def array_from(n)
   n.to_s.chars.map(&:to_i)
 end
@@ -82,3 +105,15 @@ end
 
 result = SecureContainer.new(AdjacentValidator.new).find(359282, 820401)
 assert_equal(result.size, 511)
+
+validator_two = AdjacentValidatorPartTwo.new
+assert_equal(validator_two.valid?(123444), false)
+assert_equal(validator_two.valid?(112233), true)
+assert_equal(validator_two.valid?(111122), true )
+assert_equal(validator_two.valid?(366677), true )
+assert_equal(validator_two.valid?(367777), false)
+assert_equal(validator_two.valid?(667779), true)
+assert_equal(validator_two.valid?(778888), true)
+
+result_two = SecureContainer.new(validator_two).find(359282, 820401)
+assert_equal(result_two.size, 316)
