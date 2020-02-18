@@ -47,6 +47,6 @@ end
 
 run_basic_test
 
-input = InputReader.new('input/day2').read
+input = InputReader.new('../input/day2').read
 assert_equal 5866714, part_one_answer(input)
 assert_equal 5208, part_two_answer(input)
